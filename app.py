@@ -99,6 +99,7 @@ def main():
                 if annotations is None:
                     st.markdown(f"No annotation for {annotation_type}")
                 else:
+                    st.markdown(f"<center>{annotation_type}</center>", unsafe_allow_html=True)
                     st.table(annotations_df)
 
             if annotations is not None:
