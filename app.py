@@ -37,9 +37,7 @@ class Annotation(Enum):
         return tuple(map(lambda c: c.value, cls))
 
 
-def draw_rectangle(
-    img: Image.Image, x_min: int, y_min: int, x_max: int, y_max: int, annotation_type: str, text: str = ""
-) -> Image.Image:
+def draw(img: Image.Image, x_min: int, y_min: int, x_max: int, y_max: int, annotation_type: str, text: str = ""):
     color = {"body": "#258039", "face": "#e67e22", "frame": "#31a9b8", "text": "#cf3721"}[annotation_type]
     font = ImageFont.truetype(font=cfg["font_path"], size=30, encoding="utf-8")
 
@@ -52,8 +50,6 @@ def draw_rectangle(
 
     draw.rectangle((x_min, text_y, x_min + text_w, text_y + text_h), fill=color)
     draw.text((x_min, text_y), text, fill="white", font=font)
-
-    return img
 
 
 def main():
@@ -113,7 +109,7 @@ def main():
                         character = ann.character
                         text = f"{i:02d} {characters_df[characters_df['id'] == character]['name'].tolist()[0]}"
 
-                    draw_rectangle(img, ann.xmin, ann.ymin, ann.xmax, ann.ymax, annotation_type, text)
+                    draw(img, ann.xmin, ann.ymin, ann.xmax, ann.ymax, annotation_type, text)
 
         st.image(img, use_column_width=True)
 
