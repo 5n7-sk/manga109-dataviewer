@@ -1,0 +1,12 @@
+version: "3.1"
+
+services:
+  app:
+    build: .
+    command: make run port=80
+    container_name: manga109-dataviewer
+    ports:
+      - ${PORT}:80
+    volumes:
+      - ./:/app
+      - ./data/manga109:/app/data/manga109

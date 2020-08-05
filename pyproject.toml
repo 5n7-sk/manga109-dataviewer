@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "manga109-dataviewer"
+version = "0.1.0"
+description = "A simple data viewer for Manga109 dataset"
+authors = ["Shunta Komatsu <shuntak217@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+manga109 = {git = "https://github.com/skmatz/manga109.git"}
+pandas = "^1.0.5"
+pillow = "^7.2.0"
+pyyaml = "^5.3.1"
+streamlit = "^0.63.1"
+
+[tool.poetry.dev-dependencies]
+black = "^19.10b0"
+flake8 = "^3.8.3"
+isort = "^5.1.4"
+
+[tool.black]
+line-length = 120
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
