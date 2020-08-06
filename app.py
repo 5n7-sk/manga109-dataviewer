@@ -105,6 +105,7 @@ def main():
                         annotations_df = pd.merge(
                             annotations_df,
                             characters_df,
+                            how="left",
                             left_on="character",
                             right_on="id",
                             suffixes=("", "_"),  # type: ignore
