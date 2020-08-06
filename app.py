@@ -115,11 +115,11 @@ def main():
 
             if annotations is not None:
                 for i, ann in enumerate(annotations):
-                    text = ""
+                    text = f"{i:02d}"
 
                     if isinstance(ann, (T.Body, T.Face)):
                         character = ann.character
-                        text = f"{i:02d} {characters_df[characters_df['id'] == character]['name'].tolist()[0]}"
+                        text += f" {characters_df[characters_df['id'] == character]['name'].tolist()[0]}"
 
                     draw(img, ann.xmin, ann.ymin, ann.xmax, ann.ymax, annotation_type, text)
 
