@@ -1,2 +1,8 @@
 data_root: ./data/manga109
 font_path: ./font.ttf
+page:
+  color:
+    body: "#258039"
+    face: "#e67e22"
+    frame: "#31a9b8"
+    text: "#cf3721"
