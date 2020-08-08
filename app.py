@@ -65,10 +65,8 @@ def main():
 
             annotations_df = pd.DataFrame(anns)
             if show_table:
-                if anns is None:
-                    st.markdown(f"No annotation for {annotation}")
-                else:
-                    st.markdown(f"<center>{annotation}</center>", unsafe_allow_html=True)
+                if not annotations_df.empty:
+                    st.markdown(f"<center>{annotation.value}</center>", unsafe_allow_html=True)
 
                     if annotation in (Annotation.body, Annotation.face):
                         annotations_df = pd.merge(
