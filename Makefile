@@ -1,3 +1,8 @@
+.PHONY: format
+format:
+	poetry run black -v app.py
+	poetry run black -v src
+
 .PHONY: install
 install:
 	poetry install
