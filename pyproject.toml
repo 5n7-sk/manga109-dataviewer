@@ -10,6 +10,7 @@ python = "^3.8"
 manga109 = {git = "https://github.com/skmatz/manga109.git"}
 pandas = "^1.0.5"
 pillow = "^7.2.0"
+plotly = "^4.9.0"
 pyyaml = "^5.3.1"
 streamlit = "^0.63.1"
 

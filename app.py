@@ -2,6 +2,7 @@ import os.path
 from typing import List
 
 import pandas as pd
+import plotly.graph_objects as go
 import streamlit as st
 import yaml
 from PIL import Image
@@ -11,6 +12,7 @@ from manga109 import typing as T
 from manga109.utils import get_all_titles
 from src import __version__
 from src.drawer import Drawer
+from src.eda import count_bodies, count_faces
 from src.typing import Annotation, Content
 
 with open("config.yml") as f:
@@ -31,7 +33,35 @@ def main():
     characters_df = pd.DataFrame({"id": [c.id for c in characters], "name": [c.name for c in characters]})
 
     if content == Content.characters:
+        # count the number of appearances (bodies and faces)
+        pages = client.books[0].pages
+        bodies = count_bodies(pages)
+        bodies_df = pd.DataFrame({"id": list(bodies.keys()), "num_bodies": list(bodies.values())})
+        faces = count_faces(pages)
+        faces_df = pd.DataFrame({"id": list(faces.keys()), "num_faces": list(faces.values())})
+
+        characters_df = pd.merge(characters_df, pd.merge(bodies_df, faces_df, how="outer", on="id").fillna(0), on="id")
         st.table(characters_df)
+
+        show_eda: bool = st.sidebar.checkbox("Show EDA", value=True)
+        if show_eda:
+            fig = go.Figure(  # type: ignore
+                data=[
+                    go.Bar(  # type: ignore
+                        name="num_bodies",
+                        x=characters_df["name"].values,
+                        y=characters_df["num_bodies"].values,
+                        marker_color=cfg["page"]["color"]["body"],
+                    ),
+                    go.Bar(  # type: ignore
+                        name="num_faces",
+                        x=characters_df["name"].values,
+                        y=characters_df["num_faces"].values,
+                        marker_color=cfg["page"]["color"]["face"],
+                    ),
+                ]
+            )
+            st.plotly_chart(fig)
 
     if content == Content.pages:
         show_table: bool = st.sidebar.checkbox("Show annotation table(s)")
