@@ -61,6 +61,7 @@ def main():
                     ),
                 ]
             )
+            fig.update_layout(legend={"x": 0.0, "y": 1.0, "bgcolor": "rgba(255, 255, 255, 0)"})
             st.plotly_chart(fig)
 
     if content == Content.pages:
