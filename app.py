@@ -77,6 +77,7 @@ def main():
         index -= 1  # convert to 0-index
 
         page = pages[index]
+        st.markdown(f"Path: {os.path.abspath(page.img_path)}")
 
         annotations: List[Annotation] = [
             Annotation.from_str(v) for v in st.sidebar.multiselect("Annotation type(s)", (Annotation.all()))
