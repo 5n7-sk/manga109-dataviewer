@@ -1,5 +1,5 @@
 data_root: ./data/manga109
-font_path: ./font.ttf
+font_path: ./fonts/font.ttf
 page:
   color:
     body: "#258039"

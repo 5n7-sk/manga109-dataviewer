@@ -5,11 +5,11 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 import yaml
-from PIL import Image
-
 from manga109 import Manga109
 from manga109 import typing as T
-from manga109.utils import get_all_titles
+from manga109.titles import ALL_TITLES
+from PIL import Image
+
 from src import __version__
 from src.drawer import Drawer
 from src.eda import count_bodies, count_faces
@@ -22,12 +22,13 @@ with open("config.yml") as f:
 def main():
     st.title("Manga109 DataViewer")
 
-    title: str = st.sidebar.selectbox("Title", get_all_titles(os.path.join(cfg["data_root"], "books.txt")))
+    title: str = st.sidebar.selectbox("Title", ALL_TITLES)
     content = Content.from_str((st.sidebar.selectbox("Content", Content.all(), index=0)))
 
     st.markdown(f"## {title}")
 
-    client = Manga109(cfg["data_root"], titles=[title])
+    use_old_version: bool = st.sidebar.checkbox("Use old version (v2018.05.31)")
+    client = Manga109(cfg["data_root"], "annotations.v2018.05.31" if use_old_version else "annotations", titles=[title])
 
     characters = client.books[0].characters
     characters_df = pd.DataFrame({"id": [c.id for c in characters], "name": [c.name for c in characters]})
@@ -77,13 +78,13 @@ def main():
         index -= 1  # convert to 0-index
 
         page = pages[index]
-        st.markdown(f"Path: {os.path.abspath(page.img_path)}")
+        st.markdown(f"Path: {os.path.abspath(page.image_path)}")
 
         annotations: List[Annotation] = [
             Annotation.from_str(v) for v in st.sidebar.multiselect("Annotation type(s)", (Annotation.all()))
         ]
 
-        img = Image.open(client.books[0].pages[index].img_path)
+        img = Image.open(client.books[0].pages[index].image_path)
         for annotation in annotations:
             anns = None
             if annotation == Annotation.body:
