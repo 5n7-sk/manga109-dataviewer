@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3"
 
 services:
   app:
@@ -9,6 +9,7 @@ services:
       - .env
     ports:
       - ${PORT}:80
+    restart: always
     volumes:
       - ./:/app
       - ./data/manga109:/app/data/manga109
